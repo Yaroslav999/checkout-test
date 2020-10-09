@@ -8,9 +8,10 @@ class Basket
 
   def calculate
     base_price = items.map(&:price).sum
-    return items_discount(base_price) unless find_total_discount.any? && find_total_discount.first.size < items_discount(base_price)
+    return base_price if promotions.empty?
+    return total_discount(base_price) if find_total_discount.any? && find_total_discount.first.size > base_price
 
-    total_discount(items_discount(base_price))
+    items_discount(base_price)
   end
 
   private

@@ -13,6 +13,10 @@ class Checkout
     basket.items << item
   end
 
+  def total
+    basket.calculate
+  end
+
   private
 
   def promotions(rules)
