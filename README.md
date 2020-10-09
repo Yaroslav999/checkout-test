@@ -27,7 +27,15 @@ System for calculating the total amount of the basket.
 |  C, A, D, A, A        | 140      |
 
 # Usage and run tests
+Install gems
 ```
-bundle install
+ bundle install
+```
+Run ruby file for see result
+```
+ruby run.rb
+```
+Run spec tests
+```
 rspec spec/
 ```
