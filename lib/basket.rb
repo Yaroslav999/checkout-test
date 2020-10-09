@@ -7,7 +7,7 @@ class Basket
   end
 
   def calculate
-    base_price = items.map(&:price).sum
+    base_price = items.sum(&:price)
     return items_discount(base_price) unless find_total_discount.any? && find_total_discount.first.size < items_discount(base_price)
 
     total_discount(items_discount(base_price))
@@ -20,17 +20,13 @@ class Basket
   end
 
   def total_discount(base_price)
-    base_price - find_total_discount.first.price
+    base_price - find_total_discount.sum(&:price)
   end
 
   def items_discount(base_price)
-    promotions.each do |promotion|
+    promotions.inject(base_price) do |price, promotion|
       items_promotion = items.select{ |item| item.name == promotion.name }
-      next unless items_promotion.size == promotion.size
-
-      base_price -= items_promotion.map(&:price).sum
-      base_price += promotion.price
+      items_promotion.size == promotion.size ? price - (items_promotion.sum(&:price) - promotion.price) : price
     end
-    base_price
   end
 end
